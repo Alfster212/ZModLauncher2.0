@@ -1,0 +1,168 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:customControls="clr-namespace:ZModLauncher.CustomControls"
+    xmlns:attachedProperties="clr-namespace:ZModLauncher.Attached_Properties"
+    x:Class="ZModLauncher.CustomControls.AddLocalModDialog"
+    mc:Ignorable="d"
+    d:DesignHeight="829" d:DesignWidth="1538"
+    Margin="5"
+    FontSize="16"
+    Foreground="#EBEBEB"
+    FontFamily="{StaticResource Brutal Type}">
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="OptionMark.Static.Background" Color="Transparent" />
+        <SolidColorBrush x:Key="OptionMark.Static.Border" Color="#EBEBEB" />
+        <SolidColorBrush x:Key="OptionMark.Static.CheckedBorder" Color="#0057BD" />
+        <SolidColorBrush x:Key="CheckBoxOuter.MouseOver.Checked.Background" Color="#1A2E45" />
+        <SolidColorBrush x:Key="CheckBoxOuter.MouseOver.UnChecked.Background" Color="#4D4D4D" />
+        <SolidColorBrush x:Key="CheckBox.MouseOver.Foreground" Color="#EBEBEB" />
+        <SolidColorBrush x:Key="OptionMark.Static.Glyph" Color="#0057BD" />
+        <Style TargetType="{x:Type CheckBox}">
+            <Setter Property="Background" Value="{StaticResource OptionMark.Static.Background}" />
+            <Setter Property="BorderBrush" Value="{StaticResource OptionMark.Static.Border}" />
+            <Setter Property="Foreground" Value="{StaticResource CaptionFontBrush}" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Padding" Value="8,0" />
+            <Setter Property="FontSize" Value="17" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <Grid x:Name="templateRoot" Background="Transparent" SnapsToDevicePixels="True">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid
+                                Name="CheckBoxOuter"
+                                Height="38"
+                                Width="38"
+                                Background="{StaticResource OptionMark.Static.Background}">
+                                <Border x:Name="checkBoxBorder" BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        Background="{TemplateBinding Background}" HorizontalAlignment="Center"
+                                        Margin="1" VerticalAlignment="Center"
+                                        Height="20"
+                                        Width="20">
+                                    <Grid x:Name="markGrid"
+                                          HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Path x:Name="optionMark"
+                                              Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z "
+                                              Fill="{StaticResource OptionMark.Static.Glyph}" Margin="1" Opacity="0"
+                                              Stretch="None" />
+                                        <Rectangle x:Name="indeterminateMark"
+                                                   Fill="{StaticResource OptionMark.Static.Glyph}" Margin="2"
+                                                   Opacity="0" />
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                            <ContentPresenter x:Name="contentPresenter" Grid.Column="1" Focusable="False"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              Margin="{TemplateBinding Padding}" RecognizesAccessKey="True"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="True" />
+                                    <Condition Property="IsChecked" Value="True" />
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="CheckBoxOuter"
+                                        Value="{StaticResource CheckBoxOuter.MouseOver.Checked.Background}" />
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="True" />
+                                    <Condition Property="IsChecked" Value="False" />
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="CheckBoxOuter"
+                                        Value="{StaticResource CheckBoxOuter.MouseOver.UnChecked.Background}" />
+                            </MultiTrigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Foreground" Value="{StaticResource CheckBox.MouseOver.Foreground}" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter Property="Opacity" TargetName="optionMark" Value="1" />
+                                <Setter Property="Opacity" TargetName="indeterminateMark" Value="0" />
+                                <Setter Property="BorderBrush" Value="{StaticResource OptionMark.Static.CheckedBorder}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <StackPanel>
+            <Border Height="829" Background="Transparent" PreviewMouseDown="Border_PreviewMouseDown">
+                <StackPanel>
+                    <Button
+                        Content="ADD LOCAL MOD"
+                        Style="{StaticResource SettingsNavBackButtonStyle}"
+                        Click="AddLocalModBackButton_OnClick" />
+                    <StackPanel Orientation="Vertical"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Top"
+                                Margin="20,20">
+                        <customControls:ModalTextBox
+                            x:Name="nameBox"
+                            HeaderText="Name *"
+                            HintText="Enter a name for the mod here"
+                            HasBrowseButton="Collapsed" />
+                        <customControls:ModalTextBox
+                            x:Name="folderBox"
+                            HeaderText="Folder *"
+                            HintText="Specify the mod's folder path here"
+                            IsBrowsingForFolder="True" />
+                        <customControls:ModalTextBox
+                            x:Name="imageBox"
+                            HeaderText="Image"
+                            HintText="Specify an image path here"
+                            FileFilter="Images" />
+                        <customControls:ModalTextBox
+                            x:Name="launchExeBox"
+                            HeaderText="Launch Executable"
+                            HintText="Specify a launch executable path here"
+                            FileFilter="Executable File (*.bat, *.exe)|*.bat;*.exe" />
+                        <CheckBox
+                            x:Name="macroBox"
+                            Margin="0, 0"
+                            Foreground="#ABABAB"
+                            IsEnabled="{Binding IsInputEmpty, ElementName=launchExeBox}">
+                            Use Shared Toggle Macro (most mods should use this)
+                        </CheckBox>
+                        <CheckBox
+                            x:Name="shouldFavoriteBox"
+                            Margin="0, 5"
+                            Foreground="#ABABAB">
+                            Should Favorite
+                        </CheckBox>
+                        <Separator
+                            Margin="0,18"
+                            Background="#363636" />
+                        <TextBlock
+                            x:Name="statusLabel"
+                            Text="..."
+                            Foreground="{StaticResource ModalFGShade1}"
+                            Visibility="Collapsed" />
+                        <StackPanel Orientation="Horizontal" Margin="0, 10">
+                            <attachedProperties:BasicMenuButton x:Name="confirmButton"
+                                                                Width="85"
+                                                                Foreground="{StaticResource ModalFGShade1}"
+                                                                Content="OK"
+                                                                CornerRadius="5"
+                                                                Style="{StaticResource ModalButtonStyle}"
+                                                                Visibility="{Binding HasBrowseButton, ElementName=This}"
+                                                                Click="ConfirmButton_Click" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="ZModLauncher.CustomControls.Popup"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="30" d:DesignWidth="140"
+             Name="This">
+    <Grid>
+        <Popup
+            Placement="{Binding PopupPlacement, ElementName=This}"
+            StaysOpen="True"
+            VerticalOffset="-1"
+            HorizontalOffset="{Binding HorizontalOffset, ElementName=This}"
+            AllowsTransparency="True"
+            IsOpen="{Binding IsPopupOpen, ElementName=This}">
+            <Border
+                Background="{StaticResource ButtonBackgroundHoverBrush}"
+                CornerRadius="4"
+                Margin="0,0,8,8">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="15" Opacity="0.3" />
+                </Border.Effect>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Grid.Column="0"
+                        Grid.Row="0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="{Binding PopupText, ElementName=This}"
+                        FontSize="15"
+                        FontFamily="{StaticResource Brutal Type}"
+                        Foreground="{StaticResource CaptionFontBrush}" />
+                </Grid>
+            </Border>
+        </Popup>
+    </Grid>
+</UserControl>
